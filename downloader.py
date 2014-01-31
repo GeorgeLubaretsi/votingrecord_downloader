@@ -5,7 +5,8 @@ import os
 
 
 def main():
-  req = urllib2.Request('http://dev-parlvote.jumpstart.ge/en/api/v1/members')
+  #req = urllib2.Request('http://dev-parlvote.jumpstart.ge/en/api/v1/members')
+  req = urllib2.Request('http://votes.parliament.ge/en/api/v1/members')
   response = urllib2.urlopen(req)
   membersRaw = response.read()
   members = json.loads(membersRaw)
@@ -16,15 +17,16 @@ def main():
   for member in members:
     memberID = member['id']
     #make a web request for this members data
-    req = urllib2.Request('http://dev-parlvote.jumpstart.ge/en/api/v1/member_votes?member_id='+str(memberID)+'&with_laws=true')
+    #req = urllib2.Request('http://dev-parlvote.jumpstart.ge/en/api/v1/member_votes?member_id='+str(memberID)+'&with_laws=true')
+    req = urllib2.Request('http://votes.parliament.ge/en/api/v1/member_votes?member_id='+str(memberID)+'&with_laws=true')
     nowTime = datetime.datetime.now()
     response = urllib2.urlopen(req)
     memberVotesRaw = response.read()
     memberJson = json.loads(memberVotesRaw)
     memberVotes = memberJson['member']
         
-    print memberVotes['name']
-    memberName = memberVotes['name']
+    print memberVotes['name'].encode('utf8')
+    memberName = memberVotes['name'].encode('utf8')
     summary = memberVotes['vote_summary']
     totalVotes = summary['total_votes']
     yesVotes = summary['yes_votes']

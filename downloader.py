@@ -40,10 +40,11 @@ def main():
         lawDict[lawId] = {'kan_id': lawId, 'scrape_date': str(nowTime)[0:10], 'name': law['title'], 'date': law['released_to_public_at'], 'url': '', 'number': lawId, 'result' : []}
       #just get last vote for each member for now there are multiple sessions and votes as the bill goes through different stages these can get handled later
       sessions = law['sessions']
+      totalsession = str(len(sessions))
       for sessionKey in sessions:
         sessionNum = sessionKey.split("_")[1]
         session = sessions[sessionKey]
-        lawDict[lawId]['result'].append( {'name': memberName, 'vote': session['vote'], 'session':sessionNum} )
+        lawDict[lawId]['result'].append( {'name': memberName, 'vote': session['vote'], 'session':sessionNum, 'totalsession':totalsession} )
         lawDict[lawId]['amendments'] = []
         
   #now create individual files for each law in json format contain each members vote
